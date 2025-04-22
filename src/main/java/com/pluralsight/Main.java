@@ -1,20 +1,69 @@
 package com.pluralsight;
 
+import java.util.Scanner;
+
 public class Main {
+
+
+
+    private static Scanner scanner = new Scanner(System.in);
+    private static Book[] library = getPopulatedBooks();
+
     public static void main(String[] args) {
 
-        Book[] books = getPopulatedBooks();
-
-
-        //Book book = new Book(1, "asdfasdf", "The Book Title");
-
-        //book.checkOut("Brianna");
-
+        ShowScreenHome();
 
     }
 
-    private static Book[] getPopulatedBooks(){
+    private static void ShowScreenHome(){
 
+        String homeScreenPrompt = "Welcome to the library!\n" +
+                "Please select an option from the following:\n" +
+                "    1 - Show Available Books\n" +
+                "    2 - Show Checked Out Books\n" +
+                "    0 -  Exit App\n" +
+                "(1,2,0): ";
+
+        int option;
+
+        do{
+            System.out.print(homeScreenPrompt);
+            option = scanner.nextInt();
+            scanner.nextLine();
+            if( option == 1) {
+                ShowScreenAvailableBooks();
+            } else if (option == 2){
+                ShowScreenCheckedOutBooks();
+            }
+            else if (option == 0){
+                System.out.println("Exiting the library, have a nice day!");
+            }
+            else {
+                System.out.println("Not a valid option, please try again");
+            }
+
+        } while (option != 0);
+    }
+
+    private static void ShowScreenAvailableBooks(){
+        System.out.println("...todo available books menu here;");
+    }
+
+    public static void ShowScreenCheckedOutBooks(){
+        System.out.println("...todo checked out books here...");
+    }
+
+
+    private static Book[] getPopulatedBooks(){
+//
+//        Book b1 = new Book(1, "ISBN 978-1-78862-355-1", "Nginx HTTP Server");
+//        Book b2 = new Book(2, "ISBN 978-1-4919-1889-0", "Learning React");
+//        Book b3 = new Book(3, "ISBN 978-0-13-468599-1", "Effective Java");
+//        Book b4 = new Book(4, "ISBN 978-1-4919-1881-4", "Fluent Python");
+//
+//        Book[] allTheBooks = { b1, b2, b3, b4};
+//
+//        return allTheBooks;
 
         Book[] library = new Book[20];
 
