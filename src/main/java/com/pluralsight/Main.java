@@ -1,11 +1,12 @@
 package com.pluralsight;
 
+import com.sun.tools.jconsole.JConsoleContext;
+
 import java.util.Scanner;
 
 public class Main {
 
-
-    private static Scanner scanner = new Scanner(System.in);
+    private static Console console = new Console();
     private static Book[] library = getPopulatedBooks();
 
     public static void main(String[] args) {
@@ -26,11 +27,9 @@ public class Main {
         int option;
 
         do {
-            System.out.print(homeScreenPrompt);
-            option = scanner.nextInt();
-            scanner.nextLine();
+            option = console.promptForInt(homeScreenPrompt);
             if (option == 1) {
-                showScreenAvailableBooks2();
+                showScreenAvailableBooks();
             } else if (option == 2) {
                 showScreenCheckedOutBooks();
             } else if (option == 0) {
@@ -42,7 +41,7 @@ public class Main {
         } while (option != 0);
     }
 
-    private static void showScreenAvailableBooks2() {
+    private static void showScreenAvailableBooks() {
 
         // greet user to this menu
         System.out.println("Available Books:");
@@ -56,41 +55,33 @@ public class Main {
                 "  N - To go back to the home screen\n" +
                 "(Y,N): ";
 
-
         String option;
 
         do {
-            System.out.print(userPrompt);
-            option = scanner.nextLine();
-
+            option = console.promptForString(userPrompt);
             if (option.equalsIgnoreCase("Y")) {
-                System.out.print("Please enter the book id: ");
-                int bookId = scanner.nextInt();
-                scanner.nextLine();
-
-                System.out.print("What is your name: ");
-                String name = scanner.nextLine();
-
-                Book theSelectedBook = getBookById(library, bookId);
-
-                assert theSelectedBook != null;
-
-                theSelectedBook.checkOut(name);
-
-                System.out.printf("%s you have checkout out successfully.\n", name);
-            } else if (option.equalsIgnoreCase("N")) {
-
-            } else {
+                // if yes - prompt for which book, and who will check it out then modify data to reflect current state of app
+                showScreenCheckOutBookYes();
+            } else if (!option.equalsIgnoreCase("N")) {
                 System.out.print("Please choose from the available options!\n");
             }
-        } while (!option.equalsIgnoreCase("N"));
 
-        // if yes - prompt for which book, and who will check it out then modify data to reflect current state of app
-
-        // keep asking until a no
-
+        } while (!option.equalsIgnoreCase("N")); // keep asking until a no
         //on no, exit to main.
+    }
 
+    private static void showScreenCheckOutBookYes() {
+
+        int bookId = console.promptForInt("Please enter the book Id: ");
+        String name = console.promptForString("What is your name: ");
+
+        Book theSelectedBook = getBookById(library, bookId);
+
+        assert theSelectedBook != null;
+
+        theSelectedBook.checkOut(name);
+
+        System.out.printf("%s you have checkout out successfully.\n", name);
     }
 
     private static void displayAvailableBooks() {
@@ -100,50 +91,6 @@ public class Main {
                 System.out.println(book.getFormattedBookText());
             }
         }
-    }
-
-    private static void showScreenAvailableBooks() {
-
-        System.out.println("Available Books:");
-
-        for (Book book : library) {
-            if (!book.isCheckedOut()) {
-                System.out.println("ID: " + book.getId() + ", IBSN: " + book.getIsbn() + ", Title: " + book.getTitle());
-            }
-        }
-        String userPrompt = "Select a option: \n" +
-                "  Y - If you want to select a book to check out\n" +
-                "  N - To go back to the home screen\n";
-
-        String userInput;
-        String name;
-
-        do {
-            System.out.print(userPrompt);
-            userInput = scanner.nextLine();
-
-            if (userInput.equalsIgnoreCase("Y")) {
-                System.out.print("Please enter the book id: ");
-                int bookId = scanner.nextInt();
-                scanner.nextLine();
-
-                System.out.print("What is your name: ");
-                name = scanner.nextLine();
-
-                Book theSelectedBook = getBookById(library, bookId);
-
-                assert theSelectedBook != null;
-
-                theSelectedBook.checkOut(name);
-
-                System.out.printf("%s you have checkout out successfully.\n", name);
-            } else if (userInput.equalsIgnoreCase("N")) {
-
-            } else {
-                System.out.print("Please enter a valid input (Y/N)\n");
-            }
-        } while (!userInput.equalsIgnoreCase("N"));
-
     }
 
     private static Book getBookById(Book[] books, int id) {
