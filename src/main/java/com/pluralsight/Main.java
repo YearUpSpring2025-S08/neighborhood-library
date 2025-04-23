@@ -35,7 +35,7 @@ public class Main {
             } else if (option == 0) {
                 System.out.println("Exiting the library, have a nice day!");
             } else {
-                System.out.println("Not a valid option, please try again");
+                System.out.println("Invalid entry, please try again!");
             }
 
         } while (option != 0);
