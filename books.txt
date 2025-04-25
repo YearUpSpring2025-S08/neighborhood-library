@@ -1,7 +1,7 @@
-1|ISBN 978-1-78862-355-1|The little caterpillar
+1|ISBN 978-1-78862-355-1|The little caterpillar|Matt
 2|ISBN 978-1-4919-1889-0|Learning React
 3|ISBN 978-0-13-468599-1|Effective Java
-4|ISBN 978-1-4919-1881-4|Fluent Python
+4|ISBN 978-1-4919-1881-4|Fluent Python|Jerry
 5|ISBN 978-1-59327-599-0|Automate the Boring Stuff with Python
 6|ISBN 978-0-321-35668-0|Clean Code
 7|ISBN 978-0-596-52068-7|Head First Design Patterns
@@ -17,4 +17,4 @@
 17|ISBN 978-1-4919-5600-7|Site Reliability Engineering
 18|ISBN 978-1-4919-3412-8|Kubernetes: Up & Running
 19|ISBN 978-0-321-93413-1|Refactoring: Improving the Design of Existing Code
-20|ISBN 978-0-262-03384-8|Introduction to Algorithms
+20|ISBN 978-0-262-03384-8|Introduction to Algorithms|Brianna

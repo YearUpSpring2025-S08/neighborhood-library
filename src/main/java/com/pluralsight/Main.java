@@ -2,9 +2,7 @@ package com.pluralsight;
 
 import com.sun.tools.jconsole.JConsoleContext;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -12,9 +10,12 @@ import java.util.regex.Pattern;
 public class Main {
 
     private static Console console = new Console();
-    private static Book[] library = getPopulatedBooks();
+    private static Book[] library;
+    private static String filename;
 
     public static void main(String[] args) {
+        filename = "books.txt";
+        library = getPopulatedBooks();
 
         showScreenHome();
 
@@ -86,7 +87,32 @@ public class Main {
 
         theSelectedBook.checkOut(name);
 
+        saveAllDataToDisk();
+        //this is where a change is made, I could save the changes to disk...
+
         System.out.printf("%s you have checkout out successfully.\n", name);
+    }
+
+    private static void saveAllDataToDisk(){
+
+        try{
+            // open up the file (re-create file overwriting any existing data)
+            FileWriter fw = new FileWriter(filename);
+            BufferedWriter writer = new BufferedWriter(fw);
+
+            //loop through each book in array, encode the book into a pipe delimited string, write the string to the file
+            for(Book b:library){
+                writer.write(b.getEncodedText() + "\n");
+            }
+
+            //save the file
+            writer.close();
+
+        } catch (Exception e) {
+            System.out.println("There was an ERROR saving the data!");
+        }
+
+
     }
 
     private static void displayAvailableBooks() {
@@ -114,8 +140,10 @@ public class Main {
 
     private static Book[] getPopulatedBooks()  {
 
-        try{
-            FileReader fr = new FileReader("books.txt");
+
+        FileReader fr = null;
+        try {
+            fr = new FileReader(filename);
             BufferedReader reader = new BufferedReader(fr);
 
             Book[] booksTemp = new Book[1000];
@@ -130,13 +158,18 @@ public class Main {
 
             }
 
+            reader.close();
+
             Book[] booksFinal = Arrays.copyOf(booksTemp, size);
 
 
             return booksFinal;
-        } catch (Exception e) {
+
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+
 
     }
 
@@ -145,11 +178,17 @@ public class Main {
 
         String[] temp = encodedBook.split(Pattern.quote("|"));
 
-        int id = Integer.parseInt(temp[0]);
-        String isbn = temp[1];
-        String title = temp[2];
+        int id = Integer.parseInt(temp[0].trim());
+        String isbn = temp[1].trim();
+        String title = temp[2].trim();
 
         Book result = new Book(id, isbn, title);
+
+        if(temp.length > 3){
+            result.checkOut(temp[3].trim());
+        }
+
+
         return result;
     }
 

@@ -63,6 +63,21 @@ public class Book {
         return String.format("%-5d %-51s %21s", this.id, this.title, this.isbn);
     }
 
+    public String getEncodedText(){
+//        String result;
+//        if(this.isCheckedOut){
+//            result =  this.id + "|" + this.isbn + "|" + this.title + "|" + this.checkedOutTo;
+//        }
+//        else{
+//           result =  this.id + "|" + this.isbn + "|" + this.title;
+//        }
+//        return result;
+//
+
+        return  this.id + "|" + this.isbn + "|" + this.title + (this.isCheckedOut ? "|" + this.checkedOutTo : "");
+
+    }
+
     public static String getFormattedBookTextHeader(){
         return    "ID     TITLE                                              ISBN\n"
                 + "----- --------------------------------------------------- ---------------------";
